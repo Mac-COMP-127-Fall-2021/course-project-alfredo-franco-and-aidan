@@ -1,3 +1,3 @@
-# Project Title Goes Here
+# Minesweeper
 
 Info about your project goes here
