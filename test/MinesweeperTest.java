@@ -15,9 +15,11 @@ public class MinesweeperTest {
 
     @Test
     public void testForTenBombs() {
-        Set<Integer> results = Stream.generate(() -> minesweeper.countMines())
+        double results = Stream.generate(() -> new Minesweeper())
                                     .limit(100)
-                                    .collect(Collectors.toSet());
-        assertEquals(Set.of(10), results);
+                                    .mapToInt(game -> game.countMines())
+                                    .summaryStatistics()
+                                    .getAverage();
+        assertEquals(10.0, results);
     }
 }
