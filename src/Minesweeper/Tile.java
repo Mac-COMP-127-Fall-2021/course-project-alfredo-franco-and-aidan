@@ -15,6 +15,7 @@ public class Tile {
     GraphicsGroup image;
     Rectangle rectangle;
     GraphicsText numAdj;
+    Rectangle cover;
     
     public Tile(double xPos, double yPos) {
         image = new GraphicsGroup();
@@ -24,6 +25,9 @@ public class Tile {
         image.add(numAdj);
         numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
         numAdj.setFontSize(9);
+        cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        cover.setFillColor(Color.GRAY);
+        image.add(cover);
     }
 
     public GraphicsGroup getTileShape() {
@@ -33,6 +37,7 @@ public class Tile {
     public void makeBomb() {
         isMine = true;
         rectangle.setFillColor(Color.RED);
+        image.remove(numAdj);
     }
 
     public boolean isMine() {
@@ -42,5 +47,9 @@ public class Tile {
     public void setMines(int mines) {
         numOfAdjMines = mines;
         numAdj.setText("" + numOfAdjMines);
+    }
+
+    public void removeCover() {
+        image.remove(cover);
     }
 }

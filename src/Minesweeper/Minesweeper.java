@@ -3,6 +3,7 @@ package Minesweeper;
 import java.util.Random;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.Point;
 
 public class Minesweeper {
     public static final int CANVAS_HEIGHT = 600;
@@ -24,6 +25,14 @@ public class Minesweeper {
         placeMines();
         placeNumbers();
         canvas.draw();
+
+        canvas.onClick(event -> getTileAtClick(event.getPosition()));
+    }
+
+    private void getTileAtClick(Point position) {
+        int indexX = (int) position.getX() / 20;
+        int indexY = (int) position.getY() / 20;
+        tileArray[indexX][indexY].removeCover();
     }
 
     private void placeMines() {
