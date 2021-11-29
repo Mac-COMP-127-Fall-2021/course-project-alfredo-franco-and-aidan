@@ -48,7 +48,7 @@ public class Minesweeper {
         for(int i = 0; i < tileArray.length; i++) {
             for (int j = 0; j < tileArray.length; j++) {
                 if(!tileArray[i][j].isMine()) {
-                    checkAdjacent(i, j);
+                    tileArray[i][j].setMines(checkAdjacent(i, j));
                 }
             }
         }
@@ -56,16 +56,19 @@ public class Minesweeper {
 
     private int checkAdjacent(int i, int j) {
         int adjacentMines = 0;
-        for(int k = -1; i < 2; i++) {
-            for(int l = -1; j < 2; j++) {
+        for(int k = -1; k < 2; k++) {
+            for(int l = -1; l < 2; l++) {
                 if(i - k >= 0) {
                     if (j - l >= 0) {
-                        if(tileArray[i - k][j - l].isMine()) {
-                            adjacentMines++;
+                        if (i - k < 9) {
+                            if (j - l < 9) {
+                                if(tileArray[i - k][j - l].isMine()) {
+                                    adjacentMines++;
+                                }
+                            }
                         }
                     }
                 }
-                
             }
         }
         return adjacentMines;

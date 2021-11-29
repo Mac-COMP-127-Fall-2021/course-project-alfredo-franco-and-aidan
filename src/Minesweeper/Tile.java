@@ -2,6 +2,8 @@ package Minesweeper;
 
 import java.awt.Color;
 
+import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Rectangle;
 
 public class Tile {
@@ -10,19 +12,27 @@ public class Tile {
     private boolean isMine = false;
     private int numOfAdjMines = 0;
 
-    Rectangle tileShape;
+    GraphicsGroup image;
+    Rectangle rectangle;
+    GraphicsText numAdj;
     
     public Tile(double xPos, double yPos) {
-        tileShape = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        image = new GraphicsGroup();
+        rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        image.add(rectangle);
+        numAdj = new GraphicsText("" + numOfAdjMines);
+        image.add(numAdj);
+        numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
+        numAdj.setFontSize(9);
     }
 
-    public Rectangle getTileShape() {
-        return tileShape;
+    public GraphicsGroup getTileShape() {
+        return image;
     }
 
     public void makeBomb() {
         isMine = true;
-        tileShape.setFillColor(Color.RED);
+        rectangle.setFillColor(Color.RED);
     }
 
     public boolean isMine() {
@@ -31,5 +41,6 @@ public class Tile {
 
     public void setMines(int mines) {
         numOfAdjMines = mines;
+        numAdj.setText("" + numOfAdjMines);
     }
 }
