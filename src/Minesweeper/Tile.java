@@ -7,8 +7,8 @@ import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Rectangle;
 
 public class Tile {
-    private static final double WIDTH = 10;
-    private static final double HEIGHT = 10;
+    private static final double WIDTH = 15;
+    private static final double HEIGHT = 15;
     private boolean isMine = false;
     private int numOfAdjMines = 0;
 
