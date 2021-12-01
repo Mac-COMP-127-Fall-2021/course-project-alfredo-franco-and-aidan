@@ -11,6 +11,7 @@ public class Tile {
     private static final double WIDTH = 15;
     private static final double HEIGHT = 15;
     private boolean isMine = false;
+    private boolean isCovered = true;
     private int numOfAdjMines = 0;
     Image mine = new Image(0, 0, "bomb.png");
     Image tile = new Image(0, 0, "Tile.png");
@@ -63,6 +64,10 @@ public class Tile {
     }
 
     public void removeCover() {
-        image.remove(tile);
+        if(isCovered) {
+            image.remove(tile);
+            isCovered = false;
+        }
+
     }
 }
