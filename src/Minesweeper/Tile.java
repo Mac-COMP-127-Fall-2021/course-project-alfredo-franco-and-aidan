@@ -13,6 +13,7 @@ public class Tile {
     private boolean isMine = false;
     private int numOfAdjMines = 0;
     Image mine = new Image(0, 0, "mine.png");
+    Image tile = new Image(0, 0, "Tile.png");
     GraphicsGroup image;
     Rectangle rectangle;
     GraphicsText numAdj;
@@ -26,9 +27,12 @@ public class Tile {
         image.add(numAdj);
         numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
         numAdj.setFontSize(9);
-        cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
-        cover.setFillColor(Color.GRAY);
-        image.add(cover);
+        tile.setMaxWidth(17);
+        tile.setMaxHeight(17);
+        tile.setPosition(xPos, yPos);
+        // cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        // cover.setFillColor(Color.GRAY);
+        image.add(tile);
     }
 
     public GraphicsGroup getTileShape() {
@@ -51,6 +55,6 @@ public class Tile {
     }
 
     public void removeCover() {
-        image.remove(cover);
+        image.remove(tile);
     }
 }
