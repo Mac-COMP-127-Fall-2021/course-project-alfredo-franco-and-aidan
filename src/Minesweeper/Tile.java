@@ -12,7 +12,7 @@ public class Tile {
     private static final double HEIGHT = 15;
     private boolean isMine = false;
     private int numOfAdjMines = 0;
-    Image mine = new Image(0, 0, "mine.png");
+    Image mine = new Image(0, 0, "bomb.png");
     Image tile = new Image(0, 0, "Tile.png");
     GraphicsGroup image;
     Rectangle rectangle;
@@ -30,6 +30,9 @@ public class Tile {
         tile.setMaxWidth(17);
         tile.setMaxHeight(17);
         tile.setPosition(xPos, yPos);
+        mine.setMaxWidth(14);
+        mine.setMaxHeight(14);
+        mine.setPosition(xPos+1, yPos+1);
         // cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         // cover.setFillColor(Color.GRAY);
         image.add(tile);
@@ -42,6 +45,7 @@ public class Tile {
     public void makeBomb() {
         isMine = true;
         rectangle.setFillColor(Color.RED);
+        image.add(mine);
         image.remove(numAdj);
     }
 

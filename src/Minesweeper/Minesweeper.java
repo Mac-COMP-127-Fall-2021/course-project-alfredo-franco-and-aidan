@@ -40,7 +40,7 @@ public class Minesweeper {
         while(minesPlaced < 10) {
             for(int i = 0; i < tileArray.length; i++) {
                 for (int j = 0; j < tileArray.length; j++) {
-                    if(minesPlaced < NUM_OF_MINES) {
+                    if(minesPlaced < NUM_OF_MINES) { 
                         if(!tileArray[i][j].isMine()) {
                             if(rand.nextDouble() < 0.05) {
                                 tileArray[i][j].makeBomb();
