@@ -73,13 +73,17 @@ public class Tile {
         }
     }
 
-    public void removeCover() {
+    public boolean removeCover() {
         if (!isFlagged) {
             if(isCovered) {
                 image.remove(tile);
                 isCovered = false;
+                if(numOfAdjMines == 0) {
+                    return true;
+                }
             }
         }
+        return false;
     }
     public void toggleFlag() {
         if (isCovered){

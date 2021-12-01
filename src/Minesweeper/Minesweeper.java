@@ -1,5 +1,7 @@
 package Minesweeper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -37,10 +39,16 @@ public class Minesweeper {
     private void getTileAtClick(Point position, Set <ModifierKey>modifier) { 
         int indexX = (int) position.getX() / 20;
         int indexY = (int) position.getY() / 20;
+
         if (modifier.contains(ModifierKey.SHIFT)) {
             tileArray[indexX][indexY].toggleFlag();
-        } else{
-            tileArray[indexX][indexY].removeCover();
+        } else {
+            if(tileArray[indexX][indexY].removeCover() && !tileArray[indexX][indexY].isMine()) {
+                List<Tile> adjTiles = getAdjacent(indexX, indexY);
+                for (Tile tile : adjTiles) {
+                    tile.removeCover();
+                }
+            }
         }
     }
 
@@ -74,22 +82,31 @@ public class Minesweeper {
 
     private int checkAdjacent(int i, int j) {
         int adjacentMines = 0;
+        List<Tile> adjTiles = getAdjacent(i, j);
+        for (Tile tile : adjTiles) {
+            if(tile.isMine()){
+                adjacentMines++;
+            }
+        }
+        return adjacentMines;
+    }
+    
+    private List<Tile> getAdjacent(int i, int j) {
+        List<Tile> adjTiles = new ArrayList<>();
         for(int k = -1; k < 2; k++) {
             for(int l = -1; l < 2; l++) {
                 if(i - k >= 0) {
                     if (j - l >= 0) {
                         if (i - k < 9) {
                             if (j - l < 9) {
-                                if(tileArray[i - k][j - l].isMine()) {
-                                    adjacentMines++;
-                                }
+                                adjTiles.add(tileArray[i - k][j - l]);
                             }
                         }
                     }
                 }
             }
         }
-        return adjacentMines;
+        return adjTiles;
     }
 
     public int countMines() {
