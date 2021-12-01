@@ -25,14 +25,17 @@ public class Tile {
         image.add(rectangle);
         numAdj = new GraphicsText("" + numOfAdjMines);
         image.add(numAdj);
+        
         numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
         numAdj.setFontSize(9);
-        tile.setMaxWidth(17);
-        tile.setMaxHeight(17);
-        tile.setPosition(xPos, yPos);
+
         mine.setMaxWidth(14);
         mine.setMaxHeight(14);
         mine.setPosition(xPos+1, yPos+1);
+        tile.setMaxWidth(17);
+        tile.setMaxHeight(17);
+        tile.setPosition(xPos, yPos);
+        
         // cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         // cover.setFillColor(Color.GRAY);
         image.add(tile);
@@ -47,6 +50,7 @@ public class Tile {
         rectangle.setFillColor(Color.RED);
         image.add(mine);
         image.remove(numAdj);
+        image.add(tile);
     }
 
     public boolean isMine() {
