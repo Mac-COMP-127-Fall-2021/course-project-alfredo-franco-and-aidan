@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
+import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Rectangle;
 
 public class Tile {
@@ -11,7 +12,7 @@ public class Tile {
     private static final double HEIGHT = 15;
     private boolean isMine = false;
     private int numOfAdjMines = 0;
-
+    Image mine = new Image(0, 0, "mine.png");
     GraphicsGroup image;
     Rectangle rectangle;
     GraphicsText numAdj;
