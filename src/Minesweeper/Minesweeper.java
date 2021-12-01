@@ -1,9 +1,12 @@
 package Minesweeper;
 
 import java.util.Random;
+import java.util.Set;
 
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Point;
+import edu.macalester.graphics.events.ModifierKey;
+
 
 public class Minesweeper {
     public static final int CANVAS_HEIGHT = 600;
@@ -26,13 +29,19 @@ public class Minesweeper {
         placeNumbers();
         canvas.draw();
 
-        canvas.onClick(event -> getTileAtClick(event.getPosition()));
+        canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
     }
 
-    private void getTileAtClick(Point position) {
+
+
+    private void getTileAtClick(Point position, Set <ModifierKey>modifier) { 
         int indexX = (int) position.getX() / 20;
         int indexY = (int) position.getY() / 20;
-        tileArray[indexX][indexY].removeCover();
+        if (modifier.contains(ModifierKey.SHIFT)) {
+            tileArray[indexX][indexY].toggleFlag();
+        } else{
+            tileArray[indexX][indexY].removeCover();
+        }
     }
 
     private void placeMines() {
@@ -94,6 +103,7 @@ public class Minesweeper {
         }
         return numMines;
     }
+
 
     public static void main(String[] args) {
         new Minesweeper();

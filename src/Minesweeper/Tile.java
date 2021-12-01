@@ -12,9 +12,11 @@ public class Tile {
     private static final double HEIGHT = 15;
     private boolean isMine = false;
     private boolean isCovered = true;
+    private boolean isFlagged = false;
     private int numOfAdjMines = 0;
     Image mine = new Image(0, 0, "bomb.png");
     Image tile = new Image(0, 0, "Tile.png");
+    Image flag = new Image(0, 0, "flag.png");
     GraphicsGroup image;
     Rectangle rectangle;
     GraphicsText numAdj;
@@ -36,6 +38,9 @@ public class Tile {
         tile.setMaxWidth(17);
         tile.setMaxHeight(17);
         tile.setPosition(xPos, yPos);
+        flag.setMaxWidth(14);
+        flag.setMaxHeight(14);
+        flag.setPosition(xPos+1, yPos+1);
         
         // cover = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         // cover.setFillColor(Color.GRAY);
@@ -60,14 +65,31 @@ public class Tile {
 
     public void setMines(int mines) {
         numOfAdjMines = mines;
-        numAdj.setText("" + numOfAdjMines);
+        if (mines != 0) {
+            numAdj.setText("" + numOfAdjMines);
+        }
+        else {
+            image.remove(numAdj);
+        }
     }
 
     public void removeCover() {
-        if(isCovered) {
-            image.remove(tile);
-            isCovered = false;
+        if (!isFlagged) {
+            if(isCovered) {
+                image.remove(tile);
+                isCovered = false;
+            }
         }
-
+    }
+    public void toggleFlag() {
+        if (isCovered){
+            if(!isFlagged) {
+                image.add(flag);
+                isFlagged = true;
+            }else{
+                image.remove(flag);
+                isFlagged = false;
+            }
+        }
     }
 }
