@@ -14,6 +14,7 @@ public class Tile {
     private boolean isCovered = true;
     private boolean isFlagged = false;
     private int numOfAdjMines = 0;
+    private int x,y;
     Image mine = new Image(0, 0, "bomb.png");
     Image tile = new Image(0, 0, "Tile.png");
     Image flag = new Image(0, 0, "flag.png");
@@ -22,7 +23,11 @@ public class Tile {
     GraphicsText numAdj;
     Rectangle cover;
     
-    public Tile(double xPos, double yPos) {
+    public Tile(int x, int y) {
+        double xPos = x*20;
+        double yPos = y*20;
+        this.x = x;
+        this.y = y;
         image = new GraphicsGroup();
         rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         image.add(rectangle);
@@ -95,5 +100,13 @@ public class Tile {
                 isFlagged = false;
             }
         }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

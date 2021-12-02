@@ -23,7 +23,7 @@ public class Minesweeper {
         canvas = new CanvasWindow("Minesweeper", CANVAS_HEIGHT, CANVAS_WIDTH);
         for (int i = 0; i < tileArray.length; i++) {
             for (int j = 0; j < tileArray.length ; j++) {
-                tileArray[i][j] = new Tile(i * 20, j * 20);
+                tileArray[i][j] = new Tile(i, j);
                 canvas.add(tileArray[i][j].getTileShape());
             }
         }
@@ -35,7 +35,6 @@ public class Minesweeper {
     }
 
 
-
     private void getTileAtClick(Point position, Set <ModifierKey>modifier) { 
         int indexX = (int) position.getX() / 20;
         int indexY = (int) position.getY() / 20;
@@ -43,15 +42,19 @@ public class Minesweeper {
         if (modifier.contains(ModifierKey.SHIFT)) {
             tileArray[indexX][indexY].toggleFlag();
         } else {
-            if(tileArray[indexX][indexY].removeCover() && !tileArray[indexX][indexY].isMine()) {
-                List<Tile> adjTiles = getAdjacent(indexX, indexY);
-                for (Tile tile : adjTiles) {
-                    tile.removeCover();
-                }
+            uncoverAll(tileArray[indexX][indexY]);
+        }
+            
+    }  
+
+    private void uncoverAll(Tile tile) {
+        if(tile.removeCover() && !tile.isMine()) {
+            List<Tile> adjTiles = getAdjacent(tile.getX(), tile.getY());
+            for (Tile adjTile : adjTiles) {
+                uncoverAll(adjTile);
             }
         }
-    }
-
+    }     
     private void placeMines() {
         int minesPlaced = 0;
         while(minesPlaced < 10) {
