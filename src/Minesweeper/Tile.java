@@ -23,11 +23,9 @@ public class Tile {
     GraphicsText numAdj;
     Rectangle cover;
     
-    public Tile(int x, int y) {
-        double xPos = x*20;
-        double yPos = y*20;
-        this.x = x;
-        this.y = y;
+    public Tile(double xPos, double yPos, int xIndex, int yIndex) {
+        this.x = xIndex;
+        this.y = yIndex;
         image = new GraphicsGroup();
         rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         image.add(rectangle);
@@ -108,5 +106,17 @@ public class Tile {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isCovered() {
+        return isCovered;
+    }
+
+    public boolean isFlagged() {
+        return isFlagged;
+    }
+
+    public int getNumAdjacent() {
+        return numOfAdjMines;
     }
 }

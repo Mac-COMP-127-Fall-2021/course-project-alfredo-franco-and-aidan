@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.events.ModifierKey;
 
@@ -18,43 +19,65 @@ public class Minesweeper {
     CanvasWindow canvas;
     Tile[][] tileArray = new Tile[9][9];
     Random rand = new Random();
+    boolean isAlive = true;
+    Image resetButton = new Image("reset_button.png");
 
     public Minesweeper() {
         canvas = new CanvasWindow("Minesweeper", CANVAS_HEIGHT, CANVAS_WIDTH);
+        resetButton.setMaxHeight(40);
+        resetButton.setMaxWidth(40);
+        playOneGame();
+        canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
+    }
+
+    private void playOneGame() {
+        canvas.removeAll();
+        canvas.add(resetButton);
+        resetButton.setPosition(117.5, 5);
         for (int i = 0; i < tileArray.length; i++) {
             for (int j = 0; j < tileArray.length ; j++) {
-                tileArray[i][j] = new Tile(i, j);
+                tileArray[i][j] = new Tile(i * 20 + 50, j * 20 + 50, i, j);
                 canvas.add(tileArray[i][j].getTileShape());
             }
         }
         placeMines();
         placeNumbers();
         canvas.draw();
-
-        canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
     }
 
 
     private void getTileAtClick(Point position, Set <ModifierKey>modifier) { 
-        int indexX = (int) position.getX() / 20;
-        int indexY = (int) position.getY() / 20;
-
-        if (modifier.contains(ModifierKey.SHIFT)) {
-            tileArray[indexX][indexY].toggleFlag();
+        if(isAlive) {
+            int indexX = (int) (position.getX() - 50) / 20;
+            int indexY = (int) (position.getY() - 50) / 20;
+            if(indexX >= 0 && indexX < tileArray.length && indexY >= 0 && indexY < tileArray.length) { 
+                if (modifier.contains(ModifierKey.SHIFT)) {
+                    tileArray[indexX][indexY].toggleFlag();
+                } else {
+                    uncoverAll(tileArray[indexX][indexY]);
+                }
+            }
         } else {
-            uncoverAll(tileArray[indexX][indexY]);
+            if(canvas.getElementAt(position) == resetButton) {
+                isAlive = true;
+                playOneGame();
+            }
         }
-            
-    }  
+    }
 
     private void uncoverAll(Tile tile) {
+        if(tile.isMine()) {
+            tile.removeCover();
+            isAlive = false;
+        }
         if(tile.removeCover() && !tile.isMine()) {
             List<Tile> adjTiles = getAdjacent(tile.getX(), tile.getY());
             for (Tile adjTile : adjTiles) {
                 uncoverAll(adjTile);
             }
         }
-    }     
+    }
+
     private void placeMines() {
         int minesPlaced = 0;
         while(minesPlaced < 10) {
