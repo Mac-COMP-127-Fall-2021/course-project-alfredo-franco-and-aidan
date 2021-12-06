@@ -80,10 +80,21 @@ public class Minesweeper {
         }
     }
 
+    private void mineTrigger(){
+        for (int i = 0; i < tileArray.length; i++) {
+            for (int j = 0; j < tileArray.length; j++) {
+                if(tileArray[i][j].isMine()){
+                    tileArray[i][j].removeCover();
+                }
+            }
+        }
+    }
+
     private void uncoverAll(Tile tile) {
         if(tile.isMine()) {
             tile.removeCover();
             isAlive = false;
+            mineTrigger();
             resetButton.setImagePath("loss_face.png");
         }
         if(tile.removeCover() && !tile.isMine()) {
