@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.events.ModifierKey;
@@ -57,9 +58,23 @@ public class Minesweeper {
                     uncoverAll(tileArray[indexX][indexY]);
                 }
             }
+
+            int uncoveredTiles = 0;
+            for (int i = 0; i < tileArray.length; i++) {
+                for (int j = 0; j < tileArray.length; j++) {
+                    if(tileArray[i][j].isCovered() && !tileArray[i][j].isMine()) {
+                        uncoveredTiles++;
+                    }
+                }
+            }
+            if(uncoveredTiles == 0) {
+                isAlive = false;
+                resetButton.setImagePath("win_face.png");
+            }
         } else {
             if(canvas.getElementAt(position) == resetButton) {
                 isAlive = true;
+                resetButton.setImagePath("reset_button.png");
                 playOneGame();
             }
         }
@@ -69,6 +84,7 @@ public class Minesweeper {
         if(tile.isMine()) {
             tile.removeCover();
             isAlive = false;
+            resetButton.setImagePath("loss_face.png");
         }
         if(tile.removeCover() && !tile.isMine()) {
             List<Tile> adjTiles = getAdjacent(tile.getX(), tile.getY());
