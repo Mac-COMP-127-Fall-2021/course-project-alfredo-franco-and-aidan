@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.Set;
 
 import edu.macalester.graphics.CanvasWindow;
-import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.events.ModifierKey;
