@@ -69,12 +69,11 @@ public class Tile {
                     image.remove(tile);
                     image.add(rectangle);
                 }
-                
                 isCovered = false;
                 if(numOfAdjMines == 0) {
                     return true;
                 }
-            }
+            } 
         }
         return false;
     }

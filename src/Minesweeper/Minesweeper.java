@@ -54,6 +54,20 @@ public class Minesweeper {
                 if (modifier.contains(ModifierKey.SHIFT)) {
                     tileArray[indexX][indexY].toggleFlag();
                 } else {
+                    if(!tileArray[indexX][indexY].isCovered()) {
+                        List<Tile> adjTiles = getAdjacent(indexX, indexY);
+                        int adjacentFlagged = 0;
+                        for (Tile tile : adjTiles) {
+                            if(tile.isFlagged()) {
+                                adjacentFlagged++;
+                            }
+                        }
+                        if (tileArray[indexX][indexY].getNumAdjacent() == adjacentFlagged) {
+                            for (Tile tile : adjTiles) {
+                                uncoverAll(tile);
+                            }
+                        }
+                    }
                     uncoverAll(tileArray[indexX][indexY]);
                 }
             }
@@ -90,7 +104,7 @@ public class Minesweeper {
     }
 
     private void uncoverAll(Tile tile) {
-        if(tile.isMine()) {
+        if(tile.isMine() && !tile.isFlagged()) {
             tile.removeCover();
             isAlive = false;
             mineTrigger();
