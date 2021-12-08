@@ -12,8 +12,8 @@ import edu.macalester.graphics.events.ModifierKey;
 
 
 public class Minesweeper {
-    public static final int CANVAS_HEIGHT = 600;
-    public static final int CANVAS_WIDTH = 600;
+    public static final int CANVAS_HEIGHT = 275;
+    public static final int CANVAS_WIDTH = 250;
     public static final int NUM_OF_MINES = 10;
 
     CanvasWindow canvas;
