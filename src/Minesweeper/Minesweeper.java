@@ -26,11 +26,11 @@ public class Minesweeper {
         canvas = new CanvasWindow("Minesweeper", CANVAS_HEIGHT, CANVAS_WIDTH);
         resetButton.setMaxHeight(40);
         resetButton.setMaxWidth(40);
-        playOneGame();
+        setUpOneGame();
         canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
     }
 
-    private void playOneGame() {
+    private void setUpOneGame() {
         canvas.removeAll();
         canvas.add(resetButton);
         resetButton.setPosition(117.5, 5);
@@ -88,7 +88,7 @@ public class Minesweeper {
             if(canvas.getElementAt(position) == resetButton) {
                 isAlive = true;
                 resetButton.setImagePath("reset_button.png");
-                playOneGame();
+                setUpOneGame();
             }
         }
     }
