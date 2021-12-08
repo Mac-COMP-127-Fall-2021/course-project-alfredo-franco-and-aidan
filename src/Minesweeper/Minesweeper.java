@@ -10,17 +10,24 @@ import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.events.ModifierKey;
 
-
+/**
+ * author: Aidan, Alfredo, Franco. 
+ * This class sets up and manages the game of minesweeper, specifically sets up the games. 
+ * handles the on-click interactions, and provides information from adjacent tiles
+ * and coordinates the removal of tiles. Also, handles the logic of lossing, winning and
+ * re-starting a game. 
+ */
 public class Minesweeper {
-    public static final int CANVAS_HEIGHT = 275;
-    public static final int CANVAS_WIDTH = 250;
-    public static final int NUM_OF_MINES = 10;
+    private static final int CANVAS_HEIGHT = 275;
+    private static final int CANVAS_WIDTH = 250;
+    private static final int NUM_OF_MINES = 10;
 
     CanvasWindow canvas;
     Tile[][] tileArray = new Tile[9][9];
     Random rand = new Random();
     boolean isAlive = true;
     Image resetButton = new Image("reset_button.png");
+
 
     public Minesweeper() {
         canvas = new CanvasWindow("Minesweeper", CANVAS_HEIGHT, CANVAS_WIDTH);
@@ -29,6 +36,8 @@ public class Minesweeper {
         setUpOneGame();
         canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
     }
+
+
 
     private void setUpOneGame() {
         canvas.removeAll();
@@ -126,7 +135,7 @@ public class Minesweeper {
                     if(minesPlaced < NUM_OF_MINES) { 
                         if(!tileArray[i][j].isMine()) {
                             if(rand.nextDouble() < 0.05) {
-                                tileArray[i][j].makeBomb();
+                                tileArray[i][j].makeMine();
                                 minesPlaced++;
                             }
                         }
@@ -140,7 +149,7 @@ public class Minesweeper {
         for(int i = 0; i < tileArray.length; i++) {
             for (int j = 0; j < tileArray.length; j++) {
                 if(!tileArray[i][j].isMine()) {
-                    tileArray[i][j].setMines(checkAdjacent(i, j));
+                    tileArray[i][j].setNumAdjMines(checkAdjacent(i, j));
                 }
             }
         }
@@ -175,6 +184,10 @@ public class Minesweeper {
         return adjTiles;
     }
 
+    /**
+    * This method counts the number of mines within a game grid and we use it for  
+    * testing purposes too. 
+    */
     public int countMines() {
         int numMines = 0;
         for(int i = 0; i < tileArray.length; i++) {
@@ -187,7 +200,9 @@ public class Minesweeper {
         return numMines;
     }
 
-
+    /**
+    * This method starts the game of minesweeper. 
+    */
     public static void main(String[] args) {
         new Minesweeper();
     }

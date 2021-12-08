@@ -5,6 +5,14 @@ import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Image;
 import edu.macalester.graphics.Rectangle;
 
+
+/**
+ * author: Aidan, Alfredo, Franco. 
+ * This class sets the parameters for tiles and handles interactions dealing with
+ * uncovering and flagging. In addition to checking if mine is triggered. 
+ */
+
+
 public class Tile {
     private static final double WIDTH = 15;
     private static final double HEIGHT = 15;
@@ -35,20 +43,36 @@ public class Tile {
         image.add(tile);
     }
 
+    /**
+     * This method returns the basic tile graphics object to be inserted in the 
+     * canvas. This object allows us to change the image and change their properties
+     * efficiently in conjunction with other methods.
+     */
     public GraphicsGroup getTileShape() {
         return image;
     }
 
-    public void makeBomb() {
+    /**
+     * This method sets the tile so that it is a mine and removes the number
+     * of adjacent bombs. 
+     */
+    public void makeMine() {
         isMine = true;
         image.remove(numAdj);
     }
 
+    /**
+     * This method checks whether a tile is a mine.
+     */
     public boolean isMine() {
         return isMine;
     }
 
-    public void setMines(int mines) {
+    /**
+     * This method set the number of adjacent mines to the tile and if number is 0  
+     * it returns blank. 
+     */
+    public void setNumAdjMines(int mines) {
         numOfAdjMines = mines;
         if (mines != 0) {
             numAdj.setText("" + numOfAdjMines);
@@ -58,6 +82,13 @@ public class Tile {
         }
     }
 
+    /**
+     * 
+     * This method checks that the tile is not flagged and that it's covered. 
+     * If it's a mine it sets the image of the tile to a bomb. If it's not a mine it
+     * uncovers the tile. It also checks if the number of adjacent mines is 0 and returns
+     * true if it is. 
+     */
     public boolean removeCover() {
         if (!isFlagged) {
             if(isCovered) {
@@ -75,6 +106,10 @@ public class Tile {
         }
         return false;
     }
+
+    /**
+     * Adds a flag to the tile if it's covered. 
+     */
     public void toggleFlag() {
         if (isCovered){
             if(!isFlagged) {
@@ -87,22 +122,37 @@ public class Tile {
         }
     }
 
+    /**
+     * Returns the x index of the tile.  
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Returns the y index of the tile. 
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Checks if the tile is covered.
+     */
     public boolean isCovered() {
         return isCovered;
     }
 
+    /**
+     * Checks if the tile is flagged. 
+     */
     public boolean isFlagged() {
         return isFlagged;
     }
 
+    /**
+     * Checks the number of adjactent tiles. 
+     */
     public int getNumAdjacent() {
         return numOfAdjMines;
     }
