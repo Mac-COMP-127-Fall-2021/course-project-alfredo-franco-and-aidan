@@ -28,16 +28,20 @@ public class Minesweeper {
     boolean isAlive = true;
     Image resetButton = new Image("reset_button.png");
 
-
     public Minesweeper() {
         canvas = new CanvasWindow("Minesweeper", CANVAS_HEIGHT, CANVAS_WIDTH);
         resetButton.setMaxHeight(40);
         resetButton.setMaxWidth(40);
         setUpOneGame();
-        canvas.onClick(event -> getTileAtClick(event.getPosition(), event.getModifiers()));
+        canvas.onClick(event -> {
+            if(isAlive) {
+                getTileAtClick(event.getPosition(), event.getModifiers());
+                checkForWin();
+            } else {
+                checkForReset(event.getPosition());
+            }
+        });
     }
-
-
 
     private void setUpOneGame() {
         canvas.removeAll();
@@ -54,51 +58,52 @@ public class Minesweeper {
         canvas.draw();
     }
 
-
     private void getTileAtClick(Point position, Set <ModifierKey>modifier) { 
-        if(isAlive) {
-            int indexX = (int) (position.getX() - 50) / 20;
-            int indexY = (int) (position.getY() - 50) / 20;
-            if(indexX >= 0 && indexX < tileArray.length && indexY >= 0 && indexY < tileArray.length) { 
-                if (modifier.contains(ModifierKey.SHIFT)) {
-                    tileArray[indexX][indexY].toggleFlag();
-                } else {
-                    if(!tileArray[indexX][indexY].isCovered()) {
-                        List<Tile> adjTiles = getAdjacent(indexX, indexY);
-                        int adjacentFlagged = 0;
+        int indexX = (int) (position.getX() - 50) / 20;
+        int indexY = (int) (position.getY() - 50) / 20;
+        if(indexX >= 0 && indexX < tileArray.length && indexY >= 0 && indexY < tileArray.length) { 
+            if (modifier.contains(ModifierKey.SHIFT)) {
+                tileArray[indexX][indexY].toggleFlag();
+            } else {
+                if(!tileArray[indexX][indexY].isCovered()) {
+                    List<Tile> adjTiles = getAdjacent(indexX, indexY);
+                    int adjacentFlagged = 0;
+                    for (Tile tile : adjTiles) {
+                        if(tile.isFlagged()) {
+                            adjacentFlagged++;
+                        }
+                    }
+                    if (tileArray[indexX][indexY].getNumAdjacent() == adjacentFlagged) {
                         for (Tile tile : adjTiles) {
-                            if(tile.isFlagged()) {
-                                adjacentFlagged++;
-                            }
-                        }
-                        if (tileArray[indexX][indexY].getNumAdjacent() == adjacentFlagged) {
-                            for (Tile tile : adjTiles) {
-                                uncoverAll(tile);
-                            }
+                            uncoverAll(tile);
                         }
                     }
-                    uncoverAll(tileArray[indexX][indexY]);
                 }
+                uncoverAll(tileArray[indexX][indexY]);
             }
+        }
+    }
 
-            int uncoveredTiles = 0;
-            for (int i = 0; i < tileArray.length; i++) {
-                for (int j = 0; j < tileArray.length; j++) {
-                    if(tileArray[i][j].isCovered() && !tileArray[i][j].isMine()) {
-                        uncoveredTiles++;
-                    }
+    private void checkForWin() {
+        int uncoveredTiles = 0;
+        for (int i = 0; i < tileArray.length; i++) {
+            for (int j = 0; j < tileArray.length; j++) {
+                if(tileArray[i][j].isCovered() && !tileArray[i][j].isMine()) {
+                    uncoveredTiles++;
                 }
             }
-            if(uncoveredTiles == 0) {
-                isAlive = false;
-                resetButton.setImagePath("win_face.png");
-            }
-        } else {
-            if(canvas.getElementAt(position) == resetButton) {
-                isAlive = true;
-                resetButton.setImagePath("reset_button.png");
-                setUpOneGame();
-            }
+        }
+        if(uncoveredTiles == 0) {
+            isAlive = false;
+            resetButton.setImagePath("win_face.png");
+        }
+    }
+
+    private void checkForReset(Point position) {
+        if(canvas.getElementAt(position) == resetButton) {
+            isAlive = true;
+            resetButton.setImagePath("reset_button.png");
+            setUpOneGame();
         }
     }
 
@@ -120,7 +125,7 @@ public class Minesweeper {
             resetButton.setImagePath("loss_face.png");
         }
         if(tile.removeCover() && !tile.isMine()) {
-            List<Tile> adjTiles = getAdjacent(tile.getX(), tile.getY());
+            List<Tile> adjTiles = getAdjacent(tile.getXIndex(), tile.getYIndex());
             for (Tile adjTile : adjTiles) {
                 uncoverAll(adjTile);
             }

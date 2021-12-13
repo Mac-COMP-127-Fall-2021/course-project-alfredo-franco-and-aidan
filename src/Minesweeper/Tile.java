@@ -20,45 +20,45 @@ public class Tile {
     private boolean isCovered = true;
     private boolean isFlagged = false;
     private int numOfAdjMines = 0;
-    private int x,y;
-    Image tile = new Image(0, 0, "Tile.png");
-    GraphicsGroup image;
+    private int xIndex, yIndex;
+    Image tileImage = new Image(0, 0, "Tile.png");
+    GraphicsGroup tile;
     Rectangle rectangle;
     GraphicsText numAdj;
     
     public Tile(double xPos, double yPos, int xIndex, int yIndex) {
-        this.x = xIndex;
-        this.y = yIndex;
-        image = new GraphicsGroup();
+        this.xIndex = xIndex;
+        this.yIndex = yIndex;
+        tile = new GraphicsGroup();
         rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         numAdj = new GraphicsText("" + numOfAdjMines);
-        image.add(numAdj);
+        tile.add(numAdj);
         
-        numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
         numAdj.setFontSize(9);
+        numAdj.setCenter(xPos + WIDTH / 2, yPos + HEIGHT / 2);
 
-        tile.setMaxWidth(17);
-        tile.setMaxHeight(17);
-        tile.setPosition(xPos, yPos);
-        image.add(tile);
+        tileImage.setMaxWidth(17);
+        tileImage.setMaxHeight(17);
+        tileImage.setPosition(xPos, yPos);
+        tile.add(tileImage);
     }
 
     /**
      * This method returns the basic tile graphics object to be inserted in the 
-     * canvas. This object allows us to change the image and change their properties
+     * canvas. This object allows us to change the tile and change their properties
      * efficiently in conjunction with other methods.
      */
     public GraphicsGroup getTileShape() {
-        return image;
+        return tile;
     }
 
     /**
      * This method sets the tile so that it is a mine and removes the number
-     * of adjacent bombs. 
+     * of adjacent mines. 
      */
     public void makeMine() {
         isMine = true;
-        image.remove(numAdj);
+        tile.remove(numAdj);
     }
 
     /**
@@ -78,14 +78,14 @@ public class Tile {
             numAdj.setText("" + numOfAdjMines);
         }
         else {
-            image.remove(numAdj);
+            tile.remove(numAdj);
         }
     }
 
     /**
      * 
      * This method checks that the tile is not flagged and that it's covered. 
-     * If it's a mine it sets the image of the tile to a bomb. If it's not a mine it
+     * If it's a mine it sets the tile of the tile to a bomb. If it's not a mine it
      * uncovers the tile. It also checks if the number of adjacent mines is 0 and returns
      * true if it is. 
      */
@@ -93,10 +93,10 @@ public class Tile {
         if (!isFlagged) {
             if(isCovered) {
                 if(isMine) {
-                    tile.setImagePath("bomb.png");     
+                    tileImage.setImagePath("bomb.png");     
                 } else {
-                    image.remove(tile);
-                    image.add(rectangle);
+                    tile.remove(tileImage);
+                    tile.add(rectangle);
                 }
                 isCovered = false;
                 if(numOfAdjMines == 0) {
@@ -113,10 +113,10 @@ public class Tile {
     public void toggleFlag() {
         if (isCovered){
             if(!isFlagged) {
-                tile.setImagePath("flag.png");
+                tileImage.setImagePath("flag.png");
                 isFlagged = true;
             }else{
-                tile.setImagePath("tile.png");
+                tileImage.setImagePath("tileImage.png");
                 isFlagged = false;
             }
         }
@@ -125,15 +125,15 @@ public class Tile {
     /**
      * Returns the x index of the tile.  
      */
-    public int getX() {
-        return x;
+    public int getXIndex() {
+        return xIndex;
     }
 
     /**
      * Returns the y index of the tile. 
      */
-    public int getY() {
-        return y;
+    public int getYIndex() {
+        return yIndex;
     }
 
     /**
