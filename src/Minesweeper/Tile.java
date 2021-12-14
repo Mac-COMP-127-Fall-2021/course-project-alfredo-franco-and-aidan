@@ -85,7 +85,7 @@ public class Tile {
     /**
      * 
      * This method checks that the tile is not flagged and that it's covered. 
-     * If it's a mine it sets the tile of the tile to a bomb. If it's not a mine it
+     * If it's a mine it sets the tile of the tile to a mine. If it's not a mine it
      * uncovers the tile. It also checks if the number of adjacent mines is 0 and returns
      * true if it is. 
      */

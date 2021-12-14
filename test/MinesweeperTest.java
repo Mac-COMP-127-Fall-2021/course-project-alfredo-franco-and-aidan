@@ -10,7 +10,7 @@ public class MinesweeperTest {
     Minesweeper minesweeper = new Minesweeper();
 
     @Test
-    public void testForTenBombs() {
+    public void testForTenMines() {
         assertEquals(true, Stream.generate(() -> new Minesweeper())
                                     .limit(100)
                                     .mapToInt(game -> game.countMines())
